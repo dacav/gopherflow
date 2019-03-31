@@ -58,8 +58,8 @@ def format_h2(text):
 def format_table(*items):
     yield info(BREAK)
     for item in items:
-        yield info("%10s - %s" % item)
-    yield sep()
+        yield info("%-20s %s" % item)
+    yield info(BREAK)
 
 
 def format_user(user):
@@ -72,24 +72,24 @@ def format_user(user):
 
 
 def handle_question(site, data):
-    question = site.question(data)
+    question = site.question(data[0])
 
     yield from format_h1(question.title.upper())
 
     yield sep()
     body = html2text(question.body, bodywidth=COLUMNS)
     yield from map(info, body.splitlines())
+    yield from format_user(question.owner)
     yield sep()
 
     yield from format_table(
-        ("Creation date", question.creation_date),
-        ("Last Activity", question.last_activity_date),
-        ("Score", question.score),
-        ("View Count:", question.view_count),
-        ("Tags:      ", ", ".join(question.tags)),
+        ("Creation date",   question.creation_date),
+        ("Last Activity",   question.last_activity_date),
+        ("Score",           question.score),
+        ("View Count",      question.view_count),
+        ("Tags",            ", ".join(question.tags)),
     )
 
-    yield from format_user(question.owner)
 
     for ansnr, ans in enumerate(question.answers):
 
