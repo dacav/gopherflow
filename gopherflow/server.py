@@ -7,8 +7,9 @@ BIND = "127.0.0.1"
 PORT = 9070
 DEFAULT_PARAMS = dict(host="localhost", port=PORT, tls=False)
 COLUMNS = 74
-BREAK = COLUMNS * '-'
+SITE = stackexchange.StackOverflow
 
+BREAK = COLUMNS * '-'
 TYPE_TEXT = '0'
 TYPE_MENU = '1'
 TYPE_ERROR = '3'
@@ -107,7 +108,7 @@ if __name__ == "__main__":
         q=handle_question,
     )
 
-    site = stackexchange.Site(stackexchange.StackOverflow)
+    site = stackexchange.Site(SITE)
     site.be_inclusive()
 
     def handle(request):
