@@ -101,11 +101,23 @@ def handle_question(site, data):
         yield from format_user(ans.owner)
 
 
+def handle_user(site, data):
+    user = site.user(data[0])
+
+    yield from format_table(
+        ("User id",         user.id),
+        ("User name",       user.display_name),
+        ("Reputation",      user.reputation),
+        ("Moderator",       user.is_moderator),
+        ("Creation date",   user.creation_date),
+        ("Last access",     user.last_access_date),
+    )
+
 
 if __name__ == "__main__":
     handlers = dict(
-        question=handle_question,
-        q=handle_question,
+        question=handle_question, q=handle_question,
+        user=handle_user, u=handle_user,
     )
 
     site = stackexchange.Site(SITE)
